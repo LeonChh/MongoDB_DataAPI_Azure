@@ -24,7 +24,7 @@
             }
         },
          "packageUrl": {
-            "defaultValue": "https://mdbdatareplacepkg.blob.core.windows.net/mdb-datareplace-cont/mongodb-dataapi-repl-fcn-zipdeploy-v3.zip?sp=r&st=2025-08-15T16:01:27Z&se=2026-12-31T00:16:27Z&spr=https&sv=2024-11-04&sr=b&sig=09k2kBxjNabd1qLeUymP5sLSFDdXfMNXNSDFL1RhYRU%3D",
+            "defaultValue": "https://github.com/mongodb-partners/MongoDB_DataAPI_Azure/raw/refs/heads/main/mdbdataapireplacev1.zip",
             "type": "string",
             "metadata": {
                 "description": "URL of the zip package with SAS token"
@@ -56,7 +56,7 @@
             "name": "[parameters('SKU')]"
             },
             "properties": {
-                "reserved": true // for Linux
+                "reserved": true 
             }
         },
         {
@@ -113,14 +113,6 @@
                         "name": "FUNCTIONS_WORKER_ENTRY_POINT",
                         "value": "function_app"
                         },
-                        // {
-                        // "name": "PYTHON_ISOLATED_WORKER_DEPENDENCY_PATH",
-                        // "value": "python"
-                        // },
-                        // {
-                        // "name": "WEBSITE_RUN_FROM_PACKAGE",
-                        // "value": "1"
-                        // },
                         {
                         "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
                         "value": "true"
