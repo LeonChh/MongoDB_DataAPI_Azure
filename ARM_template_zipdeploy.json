@@ -27,7 +27,7 @@
             "defaultValue": "https://github.com/mongodb-partners/MongoDB_DataAPI_Azure/raw/refs/heads/main/mdbdataapireplacev1.zip",
             "type": "string",
             "metadata": {
-                "description": "URL of the zip package with SAS token"
+                "description": "URL of the zip package from the repository"
             }
         }
     },

@@ -54,7 +54,7 @@ Register for a new Atlas Account [here](https://www.mongodb.com/docs/atlas/tutor
 
    b. Select or Create your Resource group which will contain the Azure function and its associated components (App Service Plan, Storage Account and App Insights). You can keep the function name and SKU as the defaults or change if you like to follow some specific standards. We recommned that you add your Cluster name to the function app name so that its unique and easy to identify.
 
-   Please ** DONOT change ** the packageUrl as its the SAS url of the Storage account which has the zip that needs to be deployed. Select **Create** and it will create the Azure function app, deploy the azure function along with the associated resources.
+  Select **Create** and it will create the Azure function app, deploy the azure function along with the associated resources.
 
 ## How to get credentials
 
