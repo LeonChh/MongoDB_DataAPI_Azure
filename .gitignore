@@ -134,3 +134,10 @@ __blobstorage__
 __queuestorage__
 __azurite_db*__.json
 .python_packages
+
+# Claude Code
+CLAUDE.md
+.claude/
+
+# random file created when testing
+nul

@@ -6,6 +6,7 @@ import os
 from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
+from aggregations import AGGREGATIONS
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
@@ -136,6 +137,47 @@ def mongodb_dataapi_replace(req: func.HttpRequest) -> func.HttpResponse:
 
     except Exception as e:
         print(traceback.format_exc())
+        return error_response(e)
+
+    finally:
+        if client:
+            client.close()
+
+
+@app.route(route="mdb_dataapi/custom/{aggregation_name}", methods=['POST'])
+def mongodb_custom_aggregation(req: func.HttpRequest) -> func.HttpResponse:
+    """Endpoint voor custom named aggregations."""
+    logging.info('Custom aggregation request received.')
+
+    client = None
+
+    try:
+        aggregation_name = req.route_params.get('aggregation_name')
+
+        # Check of aggregation bestaat
+        if aggregation_name not in AGGREGATIONS:
+            return error_response(f"Aggregation '{aggregation_name}' not found. Available: {list(AGGREGATIONS.keys())}")
+
+        # Parse parameters uit request body
+        try:
+            params = req.get_json() or {}
+        except ValueError:
+            params = {}
+
+        # Instantieer en execute aggregation
+        client = connect_to_mongodb()
+        aggregation = AGGREGATIONS[aggregation_name]()
+        documents = aggregation.execute(client, params)
+
+        # Convert ObjectIds naar strings
+        for doc in documents:
+            if '_id' in doc and isinstance(doc['_id'], ObjectId):
+                doc['_id'] = str(doc['_id'])
+
+        return success_response({"documents": documents})
+
+    except Exception as e:
+        logging.error(f"Custom aggregation error: {traceback.format_exc()}")
         return error_response(e)
 
     finally:
