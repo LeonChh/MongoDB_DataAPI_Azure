@@ -18,11 +18,12 @@ class GetTasksAggregation(BaseAggregation):
         pipeline = []
 
         # Filter op title substring (case-insensitive)
+        # Negeert None, lege string, en whitespace-only
         title_contains = params.get("title_contains")
-        if title_contains:
+        if title_contains and str(title_contains).strip():
             pipeline.append({
                 "$match": {
-                    "Title": {"$regex": title_contains, "$options": "i"}
+                    "Title": {"$regex": str(title_contains).strip(), "$options": "i"}
                 }
             })
 
@@ -36,7 +37,17 @@ class GetTasksAggregation(BaseAggregation):
         })
 
         # Limiet instellen (default 100)
-        limit = params.get("limit", 100)
+        # Negeert None, null, en ongeldige waarden
+        limit = params.get("limit")
+        if limit is None or limit == "":
+            limit = 100
+        else:
+            try:
+                limit = int(limit)
+                if limit <= 0:
+                    limit = 100
+            except (ValueError, TypeError):
+                limit = 100
         pipeline.append({"$limit": limit})
 
         return pipeline
